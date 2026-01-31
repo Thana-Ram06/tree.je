@@ -5,8 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
 
-const PDF_WORKER_URL = 'https://unpkg.com/pdfjs-dist@4.7.76/build/pdf.worker.min.mjs';
-
 function getInitialFormat(searchParams: ReturnType<typeof useSearchParams>): 'png' | 'jpg' {
   const f = searchParams?.get('format');
   return f === 'jpg' ? 'jpg' : 'png';
@@ -56,7 +54,9 @@ function PdfToImageContent() {
     setErrorMsg('');
     try {
       const pdfjsLib = await import('pdfjs-dist');
-      pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
+      // Use worker from the same package version to avoid API/worker mismatch
+      const workerVersion = pdfjsLib.version;
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${workerVersion}/build/pdf.worker.min.mjs`;
 
       const data = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data }).promise;
