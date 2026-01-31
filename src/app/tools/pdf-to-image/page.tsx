@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
 
 const PDF_WORKER_URL = 'https://unpkg.com/pdfjs-dist@4.7.76/build/pdf.worker.min.mjs';
@@ -12,7 +12,7 @@ function getInitialFormat(searchParams: ReturnType<typeof useSearchParams>): 'pn
   return f === 'jpg' ? 'jpg' : 'png';
 }
 
-export default function PdfToImagePage() {
+function PdfToImageContent() {
   const searchParams = useSearchParams();
   const [file, setFile] = useState<File | null>(null);
   const [format, setFormat] = useState<'png' | 'jpg'>(() => getInitialFormat(searchParams));
@@ -174,5 +174,34 @@ export default function PdfToImagePage() {
         <p>© 2026 tree.je — All rights reserved</p>
       </footer>
     </main>
+  );
+}
+
+function PdfToImageFallback() {
+  return (
+    <main className={styles.main}>
+      <div className={styles.toolContainer}>
+        <Link href="/" className={styles.backLink}>← Back to all tools</Link>
+        <h1 className={styles.toolTitle}>PDF to Image</h1>
+        <p className={styles.toolDescription}>
+          Convert your PDF pages to high-quality JPG or PNG images. All processing happens locally in your browser.
+        </p>
+        <div className={styles.uploadArea} style={{ pointerEvents: 'none', opacity: 0.7 }}>
+          <div className={styles.uploadVisual} aria-hidden />
+          <p className={styles.uploadText}>Loading…</p>
+        </div>
+      </div>
+      <footer className={styles.footer}>
+        <p>© 2026 tree.je — All rights reserved</p>
+      </footer>
+    </main>
+  );
+}
+
+export default function PdfToImagePage() {
+  return (
+    <Suspense fallback={<PdfToImageFallback />}>
+      <PdfToImageContent />
+    </Suspense>
   );
 }
