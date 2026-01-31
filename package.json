@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
     "next": "16.1.6",
     "pdfjs-dist": "4.7.76",
