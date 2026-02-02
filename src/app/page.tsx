@@ -268,23 +268,28 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className={styles.footer}>
-        <div className={styles.footerCenter}>
-          © 2026 tree.je — All rights reserved
-        </div>
+      {/* Footer */}
+<footer className={styles.footer}>
+  <div className={styles.footerContent}>
+    <span className={styles.footerText}>
+      © 2026 tree.je — All rights reserved
+    </span>
 
-        <div className={styles.footerRight}>
-          <a
-            href="https://x.com/anoinv?s=21"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Follow on X"
-            className={styles.footerX}
-          >
-            <XIcon />
-          </a>
-        </div>
-      </footer>
+    <div className={styles.footerBy}>
+      <span>Made by me</span>
+      <a
+        href="https://x.com/anoinv?s=21"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Follow on X"
+        className={styles.footerX}
+      >
+        <XIcon />
+      </a>
+    </div>
+  </div>
+</footer>
+
     </main>
   );
 }
