@@ -13,6 +13,7 @@ export default function Navbar() {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            // eslint-disable-next-line
             setIsDark(true);
             document.documentElement.setAttribute('data-theme', 'dark');
         }
